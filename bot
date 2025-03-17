@@ -8,7 +8,7 @@ from sentence_transformers import SentenceTransformer
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 
-TOKEN = 'не'
+TOKEN = '7771424304:AAE_SSoMzNnD9KVPtV9RnyOl-ieb050qqk0'
 bot = telebot.TeleBot(TOKEN)
 
 model = SentenceTransformer('sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2')
@@ -115,14 +115,14 @@ def process_user_input(message):
         similar_articles = find_similar_articles(all_articles, title, text)
 
         response_text = f"Статья: {title} ({url})\nПохожие статьи:\n"
-        response_text += "\n".join([f"  - {t} ({u})" for t, u in similar_articles]) if similar_articles else "Нет похожих статей"
+        response_text += "\n".join([f"  - {t} ({u})" for t, u in similar_articles]) if similar_articles else "Нет похожих статей."
         bot.send_message(user_id, response_text)
 
     elif command == "lookfortheme":
         topic = message.text.strip()
         bot.send_message(user_id, f"Ищу статьи по теме: {topic}...")
 
-        all_articles = parse_habr_articles(title) + parse_wikipedia_articles(title)
+        all_articles = parse_habr_articles(topic) + parse_wikipedia_articles(topic)
 
         if not all_articles:
             bot.send_message(user_id, "Не найдено статей по данной теме")
@@ -135,5 +135,5 @@ def process_user_input(message):
         bot.send_message(user_id, response_text)
 
 if __name__ == "__main__":
-    print("бот запущен")
+    print("ботек запущен")
     bot.polling(none_stop=True)
